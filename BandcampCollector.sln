@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BandcampCollector", "Source\BandcampCollector\BandcampCollector.csproj", "{3BE2C022-BE85-4D93-BC42-007A67DB0EC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStuff", "Source\TestStuff\TestStuff.csproj", "{A3005BDB-7D93-4B70-9265-24B2A883AF10}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserCookiesGrabber", "Source\BrowserCookiesGrabber\BrowserCookiesGrabber.csproj", "{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionManager", "Source\CollectionManager\CollectionManager.csproj", "{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BE2C022-BE85-4D93-BC42-007A67DB0EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE2C022-BE85-4D93-BC42-007A67DB0EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE2C022-BE85-4D93-BC42-007A67DB0EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE2C022-BE85-4D93-BC42-007A67DB0EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3005BDB-7D93-4B70-9265-24B2A883AF10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3005BDB-7D93-4B70-9265-24B2A883AF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3005BDB-7D93-4B70-9265-24B2A883AF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3005BDB-7D93-4B70-9265-24B2A883AF10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {954CD3E8-A694-497F-AEA0-A8F51CB980B1}
+	EndGlobalSection
+EndGlobal
