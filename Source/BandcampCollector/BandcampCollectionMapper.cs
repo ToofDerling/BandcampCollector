@@ -26,6 +26,13 @@ namespace BandcampCollector
             HttpClient = client;
         }
 
+        private readonly Dictionary<string, BandcampCollectionItem> _bandcampCollectionMap;
+
+        public BandcampCollectionMapper()
+        {
+            _bandcampCollectionMap = new Dictionary<string, BandcampCollectionItem>();
+        }
+
         public async Task MapCollectionAsync()
         {
             Console.CursorVisible = false;
@@ -69,13 +76,13 @@ namespace BandcampCollector
             var parsedCollectionItems = GetCollectionItemsFromFanPage(parsedFanPage);
 
             var bandcampCollectionMap = new Dictionary<string, BandcampCollectionItem>();
-            MapParsedCollectionItems(bandcampCollectionMap, parsedCollectionItems.Values);
+            AddBandcampCollectionItems(parsedCollectionItems.Values);
 
             var fanId = parsedFanPage.fan_data.fan_id;
             var collectionData = parsedFanPage.collection_data;
             var collectionType = "collection_items"; // Or "hidden_items"
 
-            await RetrieveAdditionalCollectionItemsAsync(fanId, collectionData, parsedCollectionItems, collectionType, bandcampCollectionMap);
+            await RetrieveAdditionalCollectionItemsAsync(fanId, collectionData, parsedCollectionItems, collectionType);
 
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Settings.ParallelDownloads };
             var cursorTop = Console.CursorTop;
@@ -86,7 +93,7 @@ namespace BandcampCollector
 
             foreach (var item in parsedCollectionItems)
             {
-                await DownloadAsync(item, cursorTop, parsedCollectionItems.Count, bandcampCollectionMap);
+                await DownloadAsync(item, cursorTop, parsedCollectionItems.Count);
             }
 
             /*
@@ -116,8 +123,7 @@ namespace BandcampCollector
         private static readonly object _lock = new();
         private static volatile int _count;
 
-        private static async Task DownloadAsync(KeyValuePair<long, ParsedCollectionItem> saleItem, int cursorTop, int totalDownloads, 
-            Dictionary<string, BandcampCollectionItem> bandcampCollectionMap)
+        private async Task DownloadAsync(KeyValuePair<long, ParsedCollectionItem> saleItem, int cursorTop, int totalDownloads)
         {
             var id = Interlocked.Increment(ref _count);
             if (id < 20)
@@ -126,7 +132,7 @@ namespace BandcampCollector
             }
 
             var collectionItem = saleItem.Value;
-            var digitalItem = await RetrieveDigitalItemAsync(collectionItem, bandcampCollectionMap);
+            var digitalItem = await RetrieveDigitalItemAsync(collectionItem);
 
 
             if (digitalItem == null)
@@ -252,8 +258,8 @@ namespace BandcampCollector
             }
         }
 
-        private static async Task RetrieveAdditionalCollectionItemsAsync(long fanId, ParsedCollectionData collectionData, Dictionary<long, ParsedCollectionItem> collectionItems,
-            string collectionType, Dictionary<string, BandcampCollectionItem> bandcampCollectionMap)
+        private async Task RetrieveAdditionalCollectionItemsAsync(long fanId, ParsedCollectionData collectionData, Dictionary<long, ParsedCollectionItem> collectionItems,
+            string collectionType)
         {
             // Display downloads links found on fan page
             ProgressReporter.ShowMessage($"Retrieving item data: {collectionItems.Count}/{collectionData.item_count}");
@@ -275,7 +281,7 @@ namespace BandcampCollector
                 var parsedCollectionData = await response.Content.ReadFromJsonAsync<ParsedCollectionItems>();
 
                 MapRedownloadUrlsToCollectionItems(collectionItems, parsedCollectionData.items, parsedCollectionData.redownload_urls);
-                MapParsedCollectionItems(bandcampCollectionMap, parsedCollectionData.items);
+                AddBandcampCollectionItems(parsedCollectionData.items);
 
                 lastToken = parsedCollectionData.last_token;
                 moreAvailable = parsedCollectionData.more_available;
@@ -288,7 +294,7 @@ namespace BandcampCollector
             Console.WriteLine();
         }
 
-        private static void MapParsedCollectionItems(Dictionary<string, BandcampCollectionItem> bandcampCollectionMap, ICollection<ParsedCollectionItem> parsedCollectionItems)
+        private void AddBandcampCollectionItems(ICollection<ParsedCollectionItem> parsedCollectionItems)
         {
             foreach (var item in parsedCollectionItems)
             {
@@ -304,12 +310,12 @@ namespace BandcampCollector
                     SigParam = query["sig"],
                 };
 
-                bandcampCollectionMap.Add(id, bcItem);
+                _bandcampCollectionMap.Add(id, bcItem);
             }
         }
 
 
-        private static async Task<ParsedDigitalItem?> RetrieveDigitalItemAsync(ParsedCollectionItem collectionItem, Dictionary<string, BandcampCollectionItem> bandcampCollectionMap)
+        private async Task<ParsedDigitalItem?> RetrieveDigitalItemAsync(ParsedCollectionItem collectionItem)
         {
             ParsedDigitalItem? digitalItem = null;
 
@@ -326,15 +332,23 @@ namespace BandcampCollector
                 var parsedData = JsonSerializer.Deserialize<ParsedBandcampData>(data /*, _jsonSerializerOptions*/);
                 digitalItem = parsedData.digital_items[0];
 
-                var bandcampCollectionItem = bandcampCollectionMap[collectionItem.sale_item_id.ToString()];
-                MapParsedDigitalItem(bandcampCollectionItem, digitalItem);
+                MapBandcampCollectionItem(collectionItem, digitalItem);
             }
 
             return digitalItem;
         }
 
-        private static void MapParsedDigitalItem(BandcampCollectionItem bandcampCollectionItem, ParsedDigitalItem parsedDigitalItem)
+        private void MapBandcampCollectionItem(ParsedCollectionItem parsedCollectionItem, ParsedDigitalItem parsedDigitalItem)
         {
+            var bandcampCollectionItem = _bandcampCollectionMap[parsedCollectionItem.sale_item_id.ToString()];
+
+            if (parsedDigitalItem == null)
+            {
+                bandcampCollectionItem.Name = $"{parsedCollectionItem.band_name} - {parsedCollectionItem.item_title}";
+            }
+
+
+
 
         }
     }

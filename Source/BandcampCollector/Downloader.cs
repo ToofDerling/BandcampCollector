@@ -1,4 +1,5 @@
 ﻿using BandcampCollector.Shared.IO;
+using BandcampCollector.Shared.StringCasing;
 using System.Globalization;
 
 namespace BandcampCollector
