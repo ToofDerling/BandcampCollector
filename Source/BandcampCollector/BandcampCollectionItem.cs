@@ -1,13 +1,16 @@
 ﻿using CollectionManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BandcampCollector
 {
     public class BandcampCollectionItem : CollectionItem
     {
+        public string PaymentIdParam { get; set; }
+
+        public string SigParam { get; set; }
+
+        public string GetRedownloadPageUrl()
+        {
+            return $"https://bandcamp.com/download?from=collection&payment_id={PaymentIdParam}&sig={SigParam}&sitem_id={Id}";
+        }
     }
 }

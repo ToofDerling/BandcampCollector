@@ -1,29 +1,10 @@
 ﻿using System.Net;
 using System.Text;
 
-namespace BandcampCollector
+namespace BandcampCollector.Shared.Extensions
 {
-    public static class Extensions
+    public static class FileSystemExtensions
     {
-        // IDisposable
-
-        public static void DisposeDisposable(this IDisposable disposable)
-        {
-            try
-            {
-                disposable?.Dispose();    
-            }
-            catch 
-            { 
-            }
-        }
-
-        // Exception
-
-        public static string TypeAndMessage(this Exception ex) => $"{ex.GetType().Name}: {ex.Message}";
-
-        // Filesystem strings
-
         private static readonly char[] _invalidChars = Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars()).ToArray();
 
         private const int _spaceChar = 32;
@@ -45,5 +26,7 @@ namespace BandcampCollector
 
             return sb.Replace("   ", " ").Replace("  ", " ").ToString().Trim();
         }
+
+        public static bool IsDirectory(this FileSystemInfo e) => (e.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
     }
 }

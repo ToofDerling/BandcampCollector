@@ -1,6 +1,6 @@
 ﻿using BandcampCollector.Shared.Extensions;
 
-namespace BandcampCollector
+namespace BandcampCollector.Shared.Helpers
 {
     public class ProgressReporter
     {
@@ -41,7 +41,7 @@ namespace BandcampCollector
         public static void ShowMessage(string message)
         {
             Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(message);
+            Console.Write($">> {message}");
         }
 
         public static void EndMessages()

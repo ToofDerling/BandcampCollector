@@ -1,4 +1,4 @@
-﻿namespace BandcampCollector
+﻿namespace BandcampCollector.Shared.IO
 {
     public class AsyncStreams
     {
