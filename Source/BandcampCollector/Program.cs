@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using BandcampCollector.Shared.Helpers;
+using System.Runtime.InteropServices;
 
 namespace BandcampCollector
 {

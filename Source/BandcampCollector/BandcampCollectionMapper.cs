@@ -7,6 +7,7 @@ using System.Text;
 using BrowserCookiesGrabber;
 using System.Web;
 using BandcampCollector.Shared.Extensions;
+using BandcampCollector.Shared.Helpers;
 
 namespace BandcampCollector
 {
