@@ -45,7 +45,7 @@ Commands are case insensitive.
                 {
                     if (validAction)
                     {
-                        var mapper = new BandcampCollectionMapper();
+                        var mapper = new CollectionConnecter();
 
                         switch (action)
                         {

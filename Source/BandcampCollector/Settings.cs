@@ -6,7 +6,7 @@
 
         public static bool SkipHiddenItems => true;
 
-        public static bool FixArtistTitleCasing => true;
+        public static bool FixBandTitleCasing => true;
 
         public static string AudioFormat => AudioFormats.Flac;
 

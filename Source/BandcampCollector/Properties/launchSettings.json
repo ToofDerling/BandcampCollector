@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BandcampCollector": {
+      "commandName": "Project",
+      "commandLineArgs": "Map\r\n"
+    }
+  }
+}
