@@ -15,7 +15,7 @@ namespace BandcampCollector.Shared.JobQueue
         private InternalJobWaiter _jobWaiter;
 
         protected AbstractJobQueue(int numWorkerThreads = 1)
-        {
+        { 
             _numWorkerThreads = numWorkerThreads;
         }
 
@@ -36,7 +36,7 @@ namespace BandcampCollector.Shared.JobQueue
 
             for (int i = 0; i < _numWorkerThreads; i++)
             {
-                Task.Factory.StartNew(JobExecutorLoopAsync, TaskCreationOptions.LongRunning);
+                Task.Factory.StartNew(JobConsumerLoopAsync, TaskCreationOptions.LongRunning);
             }
 
             return _jobWaiter;
@@ -49,10 +49,13 @@ namespace BandcampCollector.Shared.JobQueue
 
         public void AddJob(IJobConsumer<T> job)
         {
-            _jobQueue.Add(job);
+            if (!_jobQueue.IsAddingCompleted)
+            {
+                _jobQueue.Add(job);
+            }
         }
 
-        private async Task JobExecutorLoopAsync()
+        private async Task JobConsumerLoopAsync()
         {
             foreach (var job in _jobQueue.GetConsumingEnumerable())
             {
