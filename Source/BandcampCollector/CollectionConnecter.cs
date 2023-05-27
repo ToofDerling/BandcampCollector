@@ -14,6 +14,9 @@ namespace BandcampCollector
         {
             Console.CursorVisible = false;
 
+            var settings = new BandcampCollectorSettings();
+            settings.CreateSettings();
+
             var cookieGrabber = new CookiesGrabber();
             var browserCookies = await cookieGrabber.GrabCookiesAsync(".bandcamp.com");
 

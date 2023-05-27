@@ -1,0 +1,20 @@
+// These are the BandcampCollector default settings. Don't touch anything here, 
+// use BandcampCollectorSettings.json to change what you need.
+{
+  "BandcampUser": "",
+  "TitlesDir": "",
+  "ConvertAllBookTypes": true,
+  "ConvertedTitlesDirName": "",
+  "NewTitleMarker": "",
+  "UpdatedTitleMarker": "",
+  "GhostscriptPath": "",
+  "JpgQuality": 93,
+  "MinimumDpi": 300,
+  "MinimumHeight": 1920,
+  "MaximumHeight": 3840,
+  "CbzDir": "",
+  "SaveCover": false,
+  "SaveCoverDir": "",
+  "SaveCoverOnly": false,
+  "NumberOfThreads": 0
+}

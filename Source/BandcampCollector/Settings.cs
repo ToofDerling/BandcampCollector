@@ -2,7 +2,9 @@
 {
     public class Settings
     {
-        public static string BandcampUser => "metalbandcamp";
+        // All properties with a public setter are read from settings file
+
+        public static string BandcampUser { get; set; }
 
         public static bool SkipHiddenItems => true;
 

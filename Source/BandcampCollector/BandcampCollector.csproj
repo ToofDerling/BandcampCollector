@@ -19,4 +19,16 @@
     <ProjectReference Include="..\CollectionManager\CollectionManager.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="BandcampCollectorSettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="BandcampCollectorSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DefaultSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

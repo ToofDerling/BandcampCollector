@@ -2,7 +2,10 @@
   "profiles": {
     "BandcampCollector": {
       "commandName": "Project",
-      "commandLineArgs": "Map\r\n"
+      "commandLineArgs": "Map\r\n",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }
