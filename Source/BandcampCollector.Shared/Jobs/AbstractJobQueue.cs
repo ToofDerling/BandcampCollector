@@ -2,7 +2,7 @@
 
 namespace BandcampCollector.Shared.Jobs
 {
-    public class JobExecutorAsync<T>
+    public abstract class AbstractJobQueue<T>
     {
         private class InternalJobWaiter : JobWaiter
         {
@@ -12,29 +12,29 @@ namespace BandcampCollector.Shared.Jobs
             }
         }
 
-        private BlockingCollection<IJob<T>> _runningQueue;
-
         private InternalJobWaiter _jobWaiter;
 
-        private readonly int _numThreads;
-
-        private int _numFinishedThreads = 0;
-
-        public JobExecutorAsync(int numThreads = 1)
+        protected AbstractJobQueue(int numWorkerThreads = 1)
         {
-            _numThreads = numThreads;
+            _numWorkerThreads = numWorkerThreads;
         }
 
-        public JobWaiter Start(bool withWaiter)
+        protected BlockingCollection<IJobConsumer<T>> _jobQueue;
+
+        private readonly int _numWorkerThreads;
+
+        private volatile int _numFinishedWorkerThreads = 0;
+
+        protected JobWaiter InitQueueWaiterAndWorkerThreads(bool withWaiter)
         {
-            _runningQueue = new BlockingCollection<IJob<T>>();
+            _jobQueue = new BlockingCollection<IJobConsumer<T>>();
 
             if (withWaiter)
             {
                 _jobWaiter = new InternalJobWaiter();
             }
 
-            for (int i = 0; i < _numThreads; i++)
+            for (int i = 0; i < _numWorkerThreads; i++)
             {
                 Task.Factory.StartNew(JobExecutorLoopAsync, TaskCreationOptions.LongRunning);
             }
@@ -44,32 +44,28 @@ namespace BandcampCollector.Shared.Jobs
 
         public void Stop()
         {
-            _runningQueue.CompleteAdding();
+            _jobQueue.CompleteAdding();
         }
 
-        public void AddJob(IJob<T> job)
+        public void AddJob(IJobConsumer<T> job)
         {
-            _runningQueue.Add(job);
+            _jobQueue.Add(job);
         }
 
         private async Task JobExecutorLoopAsync()
         {
-            var jobCount = 0;
-
-            foreach (var job in _runningQueue.GetConsumingEnumerable())
+            foreach (var job in _jobQueue.GetConsumingEnumerable())
             {
-                var result = job.Execute();
-
-                jobCount++;
+                var result = await job.ConsumeAsync();
 
                 JobExecuted?.Invoke(this, new JobEventArgs<T>(result));
             }
 
-            if (Interlocked.Increment(ref _numFinishedThreads) == _numThreads)
+            if (Interlocked.Increment(ref _numFinishedWorkerThreads) == _numWorkerThreads)
             {
                 _jobWaiter?.SignalWaitIsOver();
 
-                _runningQueue.Dispose();
+                _jobQueue.Dispose();
             }
         }
 

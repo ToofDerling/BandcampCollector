@@ -2,6 +2,6 @@
 {
     public interface IJobConsumer<T>
     {
-        Task<T> ConsumeAsync(); 
+        Task<T> ConsumeAsync();
     }
 }
