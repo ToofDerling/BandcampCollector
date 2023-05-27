@@ -1,4 +1,5 @@
-﻿using BandcampCollector.Shared.IO;
+﻿using BandcampCollector.Shared.Extensions;
+using BandcampCollector.Shared.IO;
 using System.Text.Json;
 
 namespace BandcampCollector
@@ -8,22 +9,22 @@ namespace BandcampCollector
         private static volatile int _downloaderCount = 0;
 
         private readonly int _consoleRow;
-        private readonly int _totalDownloads;
-        private readonly int _downloaderId;
 
-        public  BandcampCollectionItem BandcampCollectionItem { get; private set; }
-        
+        public BandcampCollectionItem BandcampCollectionItem { get; private set; }
+
         private readonly ParsedCollectionItem _parsedCollectionItem;
+
+        private readonly string pre;
 
         public CollectionItemDownloader(ParsedCollectionItem parsedCollectionItem, BandcampCollectionItem bandcampCollectionItem, int totalDownloads)
         {
-            _downloaderId = Interlocked.Increment(ref _downloaderCount);
-            _consoleRow = ConsoleWriter.GetCursorTop() + (_downloaderId - 1);
-
-            _totalDownloads = totalDownloads;
+            var downloaderId = Interlocked.Increment(ref _downloaderCount);
+            _consoleRow = ConsoleWriter.GetCursorTop() + downloaderId;
 
             BandcampCollectionItem = bandcampCollectionItem;
             _parsedCollectionItem = parsedCollectionItem;
+
+            pre = $"{downloaderId}/{totalDownloads} ";
         }
 
         public async Task RetrieveDigitalItemAsync()
@@ -49,13 +50,13 @@ namespace BandcampCollector
 
         public async Task DownloadBandcampCollectionItemAsync()
         {
-            var pre = $"{_downloaderId}/{_totalDownloads} ";
+            var releaseInfo = " ";
 
             // Download url
 
             if (!BandcampCollectionItem.HasDownloadUrl)
             {
-                ConsoleWriter.WriteAt(pre, BandcampCollectionItem.Name, string.Empty, Console.ForegroundColor, _consoleRow, "no digital download");
+                ConsoleWriter.WriteAt(pre, BandcampCollectionItem.Name, releaseInfo, Console.ForegroundColor, _consoleRow, "no digital download");
                 return;
             }
 
@@ -63,14 +64,17 @@ namespace BandcampCollector
             var downloadFile = BandcampCollectionItem.Name;
 
             var releaseName = BandcampCollectionItem.Name;
-            var releaseInfo = string.Empty;
 
             // Pre-order
 
             if (BandcampCollectionItem.IsPreOrder)
             {
-                releaseInfo += $" (pre-order {BandcampCollectionItem.ReleaseUtc:dd-MM-yyyy})";
+                releaseInfo += $"(pre-order {BandcampCollectionItem.ReleaseUtc:dd-MM-yyyy}, ";
                 downloadFile += " (pre-order).tmp";
+            }
+            else
+            {
+                releaseInfo += "(";
             }
 
             // Downloadsize
@@ -80,10 +84,11 @@ namespace BandcampCollector
                 downloadSize = "?MB";
             }
 
-            releaseInfo += $" {downloadSize}";
+            releaseInfo += $"{downloadSize}) ";
             ConsoleWriter.WriteAt(pre, releaseName, releaseInfo, Settings.WorkingColor, _consoleRow, string.Empty);
 
             // Single track (TODO)
+
             if (BandcampCollectionItem.IsSingleTrack)
             {
                 // Grab artwork right? (see bandcamp-collection-downloader)
@@ -95,7 +100,7 @@ namespace BandcampCollector
                 downloadFile += ".tmp";
                 state = downloadFile;
 
-                var downloadPath = Path.Combine(Settings.DownloadFolder, downloadFile);
+                var downloadPath = Path.Combine(Settings.DownloadFolder, downloadFile.ToFileSystemString());
 
                 // Download
                 using (var fileStream = AsyncStreams.AsyncFileWriteStream(downloadPath))

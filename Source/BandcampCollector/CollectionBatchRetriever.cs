@@ -1,5 +1,4 @@
-﻿using BandcampCollector.Shared.Helpers;
-using BandcampCollector.Shared.Jobs;
+﻿using BandcampCollector.Shared.Jobs;
 using System.Collections.Concurrent;
 using System.Net.Http.Json;
 
@@ -16,8 +15,6 @@ namespace BandcampCollector
             _parsedFanPageData = parsedFanPageData;
 
             _collectionType = "collection_items"; // Or "hidden_items"
-
-            ConsoleWriter.SetCursorTop();
         }
 
         private BlockingCollection<IJobConsumer<BandcampCollectionItem>> _jobQueue;
@@ -31,8 +28,10 @@ namespace BandcampCollector
             var redownloadUrls = _parsedFanPageData.collection_data.redownload_urls;
 
             var collectionBatch = CollectionMapper.GetCollectionBatchWithRedownloadUrls(collectionItems, redownloadUrls);
-
             AddCollectionBatchToDownloadQueue(collectionBatch);
+
+            var total = _parsedFanPageData.collection_data.item_count;
+            WriteProgress(collectionBatch.Count, total);
 
             // Then retrieve additional collection batches from api
             await RetrieveCollectionBatchesAsync(collectionBatch.Count);
@@ -53,14 +52,25 @@ namespace BandcampCollector
             }
         }
 
+        private static void WriteProgress(int count, int total)
+        {
+            if (count == total)
+            {
+                ConsoleWriter.WriteAt("Retrieving item data: ", $"{count}/{total}", Settings.OkColor, ConsoleWriter.GetCursorTop());
+            }
+            else
+            {
+                ConsoleWriter.WriteAt($"Retrieving item data: {count}/{total}", ConsoleWriter.GetCursorTop());
+            }
+        }
+
         private async Task RetrieveCollectionBatchesAsync(int count)
         {
             var fanId = _parsedFanPageData.fan_data.fan_id;
             var lastToken = _parsedFanPageData.collection_data.last_token;
-            var moreAvailable = true;
-
             var total = _parsedFanPageData.collection_data.item_count;
-            ProgressReporter.ShowMessage($"Retrieving item data: {count}/{total}");
+
+            var moreAvailable = true;
 
             while (moreAvailable)
             {
@@ -85,13 +95,11 @@ namespace BandcampCollector
                 lastToken = parsedCollectionData.last_token;
                 moreAvailable = parsedCollectionData.more_available;
 
-                moreAvailable = false;
+                //moreAvailable = false; //TODO
 
                 count += collectionBatch.Count;
-                ProgressReporter.ShowMessage($"Retrieving item data: {count}/{total}");
+                WriteProgress(count, total);
             }
-
-            Console.WriteLine();
         }
     }
 }

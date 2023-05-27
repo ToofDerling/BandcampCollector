@@ -32,6 +32,8 @@ namespace BandcampCollector
             var bandcampCollectionItem = new BandcampCollectionItem
             {
                 Id = id,
+                // Name is changed to "band - year - title" after retrieving digital item
+                Name = $"{parsedCollectionItem.band_name} - {parsedCollectionItem.item_title}",
                 PaymentIdParam = query["payment_id"],
                 SigParam = query["sig"],
             };
@@ -90,7 +92,7 @@ namespace BandcampCollector
                 }
             }
 
-            // Single track (TODO)
+            // Single track
             bandcampCollectionItem.IsSingleTrack = parsedDigitalItem.download_type == "t" || parsedDigitalItem.download_type_str == "track" || parsedDigitalItem.item_type == "track";
 
             static string FixCasing(string str)

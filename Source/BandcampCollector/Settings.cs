@@ -10,7 +10,7 @@
 
         public static string AudioFormat => AudioFormats.Flac;
 
-        public static string DownloadFolder => @"M:\BC\_test";
+        public static string DownloadFolder => @"M:\BC\";
 
         public static string CollectionFolder => Path.Combine(DownloadFolder, "Bandcamp Collection");
 

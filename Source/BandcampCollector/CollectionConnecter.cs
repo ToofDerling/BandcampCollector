@@ -46,12 +46,13 @@ namespace BandcampCollector
 
             if (Settings.SkipHiddenItems)
             {
-                Console.WriteLine("Skipping hidden items");
+                //Console.WriteLine("Skipping hidden items");
                 FilterHiddenItems(parsedFanPage);
             }
 
-            var jobProducerConsumer = new JobProducerConsumer<BandcampCollectionItem>(numWorkerThreads: 1);
+            var jobProducerConsumer = new JobProducerConsumer<BandcampCollectionItem>(numWorkerThreads: Settings.ParallelDownloads);
 
+            ConsoleWriter.SetCursorTop();
             var producer = new CollectionBatchRetriever(parsedFanPage);
 
             var jobWaiter = jobProducerConsumer.Start(producer, withWaiter: true);
@@ -89,8 +90,8 @@ namespace BandcampCollector
             var title = WebUtility.HtmlDecode(titleTag.InnerText);
             ProgressReporter.Done(title);
 
-            var collectionCount = parsedData.collection_data.item_count;
-            Console.WriteLine($"Found {collectionCount} items");
+            var total = parsedData.collection_data.item_count;
+            Console.WriteLine($"Found {total} items");
 
             return parsedData;
         }

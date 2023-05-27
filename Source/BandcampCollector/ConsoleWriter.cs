@@ -29,6 +29,24 @@
             }
         }
 
+        public static void WriteAt(string first, string last, ConsoleColor lastColor, int consoleRow)
+        {
+            lock (_consoleLock)
+            {
+                Console.SetCursorPosition(0, consoleRow);
+                Console.Write(first);
+
+                var oldColor = Console.ForegroundColor;
+
+                Console.ForegroundColor = lastColor;
+                Console.Write(last);
+
+                Console.ForegroundColor = oldColor;
+            
+                Console.WriteLine();
+            }
+        }
+
         public static void WriteAt(string pre, string releaseName, string releaseInfo, ConsoleColor consoleColor, int consoleRow, string end, string errorState = null, Exception ex = null)
         {
             lock (_consoleLock)
