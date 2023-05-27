@@ -1,4 +1,4 @@
-﻿using BandcampCollector.Shared.Jobs;
+﻿using BandcampCollector.Shared.JobQueue;
 
 namespace BandcampCollector
 {

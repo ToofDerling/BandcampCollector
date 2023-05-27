@@ -4,7 +4,7 @@ using System.Text.Json;
 using BrowserCookiesGrabber;
 using BandcampCollector.Shared.Extensions;
 using BandcampCollector.Shared.Helpers;
-using BandcampCollector.Shared.Jobs;
+using BandcampCollector.Shared.JobQueue;
 
 namespace BandcampCollector
 {

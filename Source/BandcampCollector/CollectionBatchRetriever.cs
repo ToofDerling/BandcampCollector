@@ -1,4 +1,4 @@
-﻿using BandcampCollector.Shared.Jobs;
+﻿using BandcampCollector.Shared.JobQueue;
 using System.Collections.Concurrent;
 using System.Net.Http.Json;
 

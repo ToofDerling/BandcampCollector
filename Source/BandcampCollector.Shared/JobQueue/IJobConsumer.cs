@@ -1,4 +1,4 @@
-﻿namespace BandcampCollector.Shared.Jobs
+﻿namespace BandcampCollector.Shared.JobQueue
 {
     public interface IJobConsumer<T>
     {

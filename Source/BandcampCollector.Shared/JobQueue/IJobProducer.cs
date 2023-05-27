@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace BandcampCollector.Shared.Jobs
+namespace BandcampCollector.Shared.JobQueue
 {
     public interface IJobProducer<T>
     {
