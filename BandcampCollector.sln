@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStuff", "Source\TestStu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrowserCookiesGrabber", "Source\BrowserCookiesGrabber\BrowserCookiesGrabber.csproj", "{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionManager", "Source\CollectionManager\CollectionManager.csproj", "{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BandcampCollector.Shared", "Source\BandcampCollector.Shared\BandcampCollector.Shared.csproj", "{E9764F88-A342-440A-ABC4-206F2B2CF567}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18CE49CF-6F40-4F79-B0B4-5D052A3249A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BC3F04C-66DC-4150-8AFC-9B667EDFFC8B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9764F88-A342-440A-ABC4-206F2B2CF567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9764F88-A342-440A-ABC4-206F2B2CF567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9764F88-A342-440A-ABC4-206F2B2CF567}.Release|Any CPU.ActiveCfg = Release|Any CPU

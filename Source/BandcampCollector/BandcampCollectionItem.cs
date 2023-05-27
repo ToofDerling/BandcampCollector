@@ -1,4 +1,4 @@
-﻿using CollectionManager;
+﻿using BandcampCollector.Shared.CollectionManager;
 
 namespace BandcampCollector
 {

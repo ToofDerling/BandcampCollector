@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BandcampCollector.Shared\BandcampCollector.Shared.csproj" />
     <ProjectReference Include="..\BrowserCookiesGrabber\BrowserCookiesGrabber.csproj" />
-    <ProjectReference Include="..\CollectionManager\CollectionManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
