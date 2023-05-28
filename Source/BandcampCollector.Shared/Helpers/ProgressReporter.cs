@@ -24,11 +24,11 @@ namespace BandcampCollector.Shared.Helpers
             var convertedProgress = Convert.ToInt32(progressPercentage);
             convertedProgress = Math.Min(convertedProgress, 100);
 
-            var progress = $">> {message} {convertedProgress}%";
+            var progress = $"{message} {convertedProgress}%";
 
             lock (_progressLock)
             {
-                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.CursorLeft = 0;
                 Console.Write(progress);
             }
         }
@@ -40,8 +40,8 @@ namespace BandcampCollector.Shared.Helpers
 
         public static void ShowMessage(string message)
         {
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write($">> {message}");
+            Console.CursorLeft = 0;
+            Console.Write($"{message}");
         }
 
         public static void EndMessages()
